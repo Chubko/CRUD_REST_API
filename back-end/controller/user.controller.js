@@ -3,7 +3,9 @@ const {
 } = require('../constant');
 const ErrorHandler = require('../error/error.handler');
 const { errorMessages } = require('../error');
-const { attachmentDirBuilder, passwordHasher, tokenizer } = require('../helper');
+const {
+    attachmentDirBuilder, nameNormalizer, passwordHasher, tokenizer
+} = require('../helper');
 const { userMessage } = require('../message');
 const {
     authService, emailService, fileService, userService
@@ -12,11 +14,13 @@ const {
 module.exports = {
     createUser: async (req, res, next) => {
         try {
-            const { avatar, body: { email, password } } = req;
+            const { avatar, body: { email, name, password } } = req;
 
             const hashPassword = await passwordHasher.hash(password);
 
-            const user = await userService.createUser({ ...req.body, password: hashPassword });
+            const nameNormalized = nameNormalizer.nameNormalizer(name);
+
+            const user = await userService.createUser({ ...req.body, name: nameNormalized, password: hashPassword });
 
             const { confirm_token } = tokenizer();
 

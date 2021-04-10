@@ -6,5 +6,6 @@ module.exports = {
     MONGO_URL: process.env.MONG0_URL || 'mongodb://localhost:27017/users',
     PORT: process.env.PORT || 5000,
     ROOT_EMAIL: process.env.ROOT_EMAIL || 'test@gmail.com',
-    ROOT_EMAIL_PASSWORD: process.env.ROOT_EMAIL_PASSWORD || '12345'
+    ROOT_EMAIL_PASSWORD: process.env.ROOT_EMAIL_PASSWORD || '12345',
+    SENTRY_DSN: process.env.SENTRY_DSN || 'https://'
 };

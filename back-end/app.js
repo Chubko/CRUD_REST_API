@@ -12,10 +12,13 @@ const { MONGO_URL, PORT } = require('./configs/config');
 
 const apiRouter = require('./router/api.router');
 const logger = require('./logger/winston')();
+const Sentry = require('./logger/sentry');
 
 const app = express();
 
 _connectDB();
+
+app.use(Sentry.Handlers.requestHandler());
 
 app.use(fileUpload());
 app.use(express.json());
@@ -25,8 +28,12 @@ app.use(express.static(path.join(process.cwd(), 'static')));
 
 app.use('/', apiRouter);
 
+app.use(Sentry.Handlers.errorHandler());
+
 // eslint-disable-next-line no-unused-vars
 app.use('*', (err, req, res, next) => {
+    Sentry.captureException(err);
+
     logger.error(JSON.stringify({
         customCode: err.customCode,
         message: err.message,

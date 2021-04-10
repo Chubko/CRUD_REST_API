@@ -152,7 +152,7 @@ module.exports = {
         'arrow-parens': 0,
     },
     overrides: [{
-        files: ['**/*.spec.ts'],
+        files: ['**/*.test.js'],
         env: {
             jest: true,
         },
