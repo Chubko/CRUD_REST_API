@@ -25,4 +25,3 @@ describe('Test utils.js', () => {
         });
     });
 });
-
